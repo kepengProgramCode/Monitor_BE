@@ -1,5 +1,6 @@
 ﻿using Monitor_BE.Entity;
 using Monitor_BE.Repository;
+using Newtonsoft.Json;
 
 namespace Monitor_BE.ServerBusiness
 {
@@ -16,25 +17,9 @@ namespace Monitor_BE.ServerBusiness
         /// <param name="userName">用户名</param>
         /// <param name="menuType">菜单类型</param>
         /// <returns>递归后的菜单</returns>
-        public List<tb_menu> findTree(string userName, int menuType)
+        public List<tb_role_permissions> findPermission()
         {
-            List<tb_menu> sysMenus = new();
-            List<tb_menu> menus = findByUser(userName);
-            foreach (tb_menu menu in menus)
-            {
-                if (menu.parent_id is null or 0)
-                {
-                    //menu.level = 0;
-                    if (!Exists(sysMenus, menu))
-                    {
-                        sysMenus.Add(menu);
-                    }
-                }
-            }
-            //sysMenus.Sort();
-            //sysMenus.Sort((o1, o2)->o1.getOrderNum().compareTo(o2.getOrderNum()));
-            findChildren(sysMenus, menus, menuType);
-            return sysMenus;
+            return Db.Queryable<tb_role_permissions>().ToList(); 
         }
 
         /// <summary>
@@ -59,7 +44,7 @@ namespace Monitor_BE.ServerBusiness
                 List<tb_menu> children = new();
                 foreach (tb_menu menu in menus)
                 {
-                    if (menuType == 1 && menu.type == 2)
+                    if (menuType == 1)
                     {
                         // 如果是获取类型不需要按钮，且菜单类型是按钮的，直接过滤掉
                         continue;
@@ -93,6 +78,42 @@ namespace Monitor_BE.ServerBusiness
                 }
             }
             return exist;
+        }
+
+
+        public async Task<List<tb_menu>> GetRouteHierarchyAsync()
+        {
+            // return await Db.Queryable<tb_menu>().ToTreeAsync(it => it.children, it => it.parent_id, null);
+            return await Db.Queryable<tb_menu>().Includes(x=>x.meta).ToTreeAsync(it => it.children, it => it.parent_id, null);
+            // 获取所有路由，包括子路由
+            //var allRoutes = await Db.Queryable<tb_routes>().ToListAsync();
+
+            // 使用字典来优化查找
+            //var routeDictionary = allRoutes.ToDictionary(r => r.id);
+
+            // 构建树状结构
+            //foreach (var route in allRoutes)
+            //{
+            //    if (routeDictionary[route.id].meta == null) routeDictionary[route.id].meta = new()
+            //    {
+            //        title = routeDictionary[route.id].meta_title,
+            //        role = routeDictionary[route.id].meta_role?.Split(","),
+            //        order = routeDictionary[route.id].meta_order,
+            //        icon = routeDictionary[route.id].meta_icon,
+            //        activeMenu = routeDictionary[route.id].meta_activeMenu,
+            //        alwaysShow = routeDictionary[route.id].meta_alwaysShow,
+            //        hideMenu = routeDictionary[route.id].meta_hideMenu,
+            //    };
+            //    if (route.parent_id.HasValue && routeDictionary.ContainsKey(route.parent_id.Value))
+            //    {
+            //        if (routeDictionary[route.parent_id.Value].children == null) routeDictionary[route.parent_id.Value].children = new();
+            //        routeDictionary[route.parent_id.Value].children.Add(route);
+            //    }
+            //}
+
+            // 返回顶级路由，即没有父路由的路由
+            //var topLevelRoutes = allRoutes.Where(r => !r.parent_id.HasValue).ToList();
+            //return topLevelRoutes;
         }
     }
 }

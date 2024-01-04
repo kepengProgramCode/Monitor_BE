@@ -40,13 +40,13 @@ namespace Monitor_BE.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("Login")]
-        public ResponseResult<tb_user>? Login(LoginEntity user)
+        public ResponseResult<LoginResponse>? Login(LoginEntity user)
         {
             //生成实体表结构
-            //users.Db.DbFirst.IsCreateAttribute().CreateClassFile(@"C:\Users\kepe1\source\repos\Monitor_BE\Monitor_BE\Entity", "Monitor_BE.Entity");
+            //users.Db.DbFirst.IsCreateAttribute().CreateClassFile(@"C:\Users\kepe1\Desktop\Monitor_BE", "Monitor_BE.Entity");
 
             var data = users.GetUserList(new tb_user() { u_name = user.Username, u_pwd = user.Password });
-            string md5s = Fun.md5Encrypt(user.Password);
+            string md5s = Fun.md5Encrypt("keke");
             if (data == null || data.FindAll(o => o.u_pwd == md5s).Count < 1) return null;
             tb_user tb_User = data.First();
             var token = TokenAuth.IssueToken(Rand.NextString(8));
@@ -60,7 +60,14 @@ namespace Monitor_BE.Controllers
             tb_User.u_expired = DateTime.Now.AddMilliseconds(token.ExpireIn);
             users.UpdateUser(tb_User, logger);
             users.UpdateUserToken(tb_Token, logger);
-            return tb_User;
+
+            LoginResponse loginResponse = new()
+            {
+                //    //Role = user.Username == "keke" ? 1 : 2,
+                access_token = token.RefreshToken,
+                //    //Auth = user.Username == "keke" ? new string[] { "ADD", "DELETE", "DETAILS" } : new string[] { "DETAILS" }
+            };
+            return loginResponse;
         }
 
 
@@ -76,6 +83,12 @@ namespace Monitor_BE.Controllers
             return users.GetUserList(new tb_user() { u_name = user.Username });
         }
 
+
+        [HttpPost("Test4")]
+        public ResponseResult<string> Test4([FromBody] string tt)
+        {
+            return tt;
+        }
 
         /// <summary>
         /// 注册用户

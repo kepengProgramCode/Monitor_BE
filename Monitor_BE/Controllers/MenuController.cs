@@ -9,7 +9,7 @@ namespace Monitor_BE.Controllers
     [Route("[controller]")]
     [ApiController]
 
-    public class MenuController : ControllerBase
+    public class MenuController : ApiControllerBase
     {
         private readonly MenuService menu;
         private readonly LogService log;
@@ -21,16 +21,32 @@ namespace Monitor_BE.Controllers
         }
 
 
+        [HttpGet("GetFindMenu")]
+        [AllowAnonymous]
+        public ResponseResult<IEnumerable<tb_menu>>? GetFindMenu()
+        {
+            var data = menu.GetRouteHierarchyAsync();
+            return data.Result;
+        }
+
+
+
         /// <summary>
         /// 获取资产类型
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [HttpGet("GetFindMenu")]
-        public ResponseResult<IEnumerable<tb_menu>>? GetFindMenu(string u_name)
+        [HttpGet("GetFindPermission")]
+        [AllowAnonymous]
+        public ResponseResult<IEnumerable<tb_role_permissions>>? GetFindPermission()
         {
-            var data = menu.findTree(u_name, 1);
-            return data.ToList();
+            var data = menu.findPermission();
+            return data;
+        }
+
+        protected override void OnWriteError(string action, string message)
+        {
+
         }
     }
 }

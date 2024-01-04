@@ -48,7 +48,7 @@ namespace Monitor_BE.Common.Api
             if (context.Result != null)
                 if (context.Result is ObjectResult obj)
                 {
-                    context.Result = new JsonResult(new { code = obj.StatusCode ?? 0, data = obj.Value });
+                    //context.Result = new JsonResult(new { code = obj.StatusCode ?? 0, data = obj.Value });
                     //var rs = new { code = obj.StatusCode ?? 0, data = obj.Value };
                     //context.Result = new ContentResult
                     //{

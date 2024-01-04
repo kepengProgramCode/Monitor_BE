@@ -23,25 +23,25 @@ namespace Monitor_BE.Common.Response
     [ApiFilter]
     public abstract class ApiControllerBase : ControllerBase, IActionFilter
     {
-        protected ResponseResult<T> SuccessResult<T>(T result)
-        {
-            return ResponseResult<T>.SuccessResult(result);
-        }
+        //protected ResponseResult<T> SuccessResult<T>(T result)
+        //{
+        //    return ResponseResult<T>.SuccessResult(result);
+        //}
 
-        protected ResponseResult<T> FailResult<T>(string? msg)
-        {
-            return ResponseResult<T>.FailResult(msg);
-        }
+        //protected ResponseResult<T> FailResult<T>(string? msg)
+        //{
+        //    return ResponseResult<T>.FailResult(msg);
+        //}
 
-        protected ResponseResult<T> ErrorResult<T>(string? msg)
-        {
-            return ResponseResult<T>.ErrorResult(msg);
-        }
+        //protected ResponseResult<T> ErrorResult<T>(string? msg)
+        //{
+        //    return ResponseResult<T>.ErrorResult(msg);
+        //}
 
-        protected ResponseResult<T> Result<T>(ResultStatus status, T data, string? msg)
-        {
-            return ResponseResult<T>.Result(status, data, msg);
-        }
+        //protected ResponseResult<T> Result<T>(ResultStatus status, T data, string? msg)
+        //{
+        //    return ResponseResult<T>.Result(status, data, msg);
+        //}
 
 
         #region 属性

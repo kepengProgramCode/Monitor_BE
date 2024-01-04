@@ -5,8 +5,8 @@ namespace Monitor_BE.Common.Response
 {
     public class ResponseResult<T>
     {
-        public ResultStatus Status { get; set; } = ResultStatus.Success;
-        public string? Message { get => !string.IsNullOrEmpty(message) ? message : Fun.GetEnumDescription(Status); set => message = value; }
+        public ResultStatus Code { get; set; } = ResultStatus.Success;
+        public string? Message { get => !string.IsNullOrEmpty(message) ? message : Fun.GetEnumDescription(Code); set => message = value; }
 
         private string? message;
 
@@ -14,22 +14,22 @@ namespace Monitor_BE.Common.Response
 
         public static ResponseResult<T> SuccessResult(T data)
         {
-            return new ResponseResult<T> { Data = data, Status = ResultStatus.Success };
+            return new ResponseResult<T> { Data = data, Code = ResultStatus.Success };
         }
 
         public static ResponseResult<T> FailResult(string? message = null)
         {
-            return new ResponseResult<T> { Message = message, Status = ResultStatus.Fail };
+            return new ResponseResult<T> { Message = message, Code = ResultStatus.Fail };
         }
 
         public static ResponseResult<T> ErrorResult(string? message = null)
         {
-            return new ResponseResult<T> { Message = message, Status = ResultStatus.Error };
+            return new ResponseResult<T> { Message = message, Code = ResultStatus.Error };
         }
 
         public static ResponseResult<T> Result(ResultStatus status, T data, string? message = null)
         {
-            return new ResponseResult<T> { Message = message, Status = status, Data = data };
+            return new ResponseResult<T> { Message = message, Code = status, Data = data };
         }
 
         /// <summary>
