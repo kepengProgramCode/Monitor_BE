@@ -34,7 +34,7 @@ namespace Monitor_BE.Controllers
 
 
         /// <summary>
-        /// 查询用户
+        /// 用户登录
         /// </summary>
         /// <param name="user"></param> 
         /// <returns></returns>
@@ -46,8 +46,8 @@ namespace Monitor_BE.Controllers
             //users.Db.DbFirst.IsCreateAttribute().CreateClassFile(@"C:\Users\kepe1\Desktop\Monitor_BE", "Monitor_BE.Entity");
 
             var data = users.GetUserList(new tb_user() { u_name = user.Username, u_pwd = user.Password });
-            string md5s = Fun.md5Encrypt("keke");
-            if (data == null || data.FindAll(o => o.u_pwd == md5s).Count < 1) return null;
+            //string md5s = Fun.md5Encrypt(user.Username);
+            if (data == null || data.Count < 1) return null;
             tb_user tb_User = data.First();
             var token = TokenAuth.IssueToken(Rand.NextString(8));
 
@@ -68,6 +68,16 @@ namespace Monitor_BE.Controllers
                 //    //Auth = user.Username == "keke" ? new string[] { "ADD", "DELETE", "DETAILS" } : new string[] { "DETAILS" }
             };
             return loginResponse;
+        }
+
+        /// <summary>
+        /// 退出登录
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("Logout")]
+        public ResponseResult<LogoutResponse>? Logout()
+        {
+            return new ResponseResult<LogoutResponse>();
         }
 
 
