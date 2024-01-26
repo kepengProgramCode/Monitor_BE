@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Monitor_BE.Common.Response;
 using Monitor_BE.ServerBusiness;
+using System.Linq.Expressions;
+using SqlSugar;
+using NewLife;
 
 namespace Monitor_BE.ServiceBuiness
 {
@@ -18,7 +21,10 @@ namespace Monitor_BE.ServiceBuiness
     {
         public List<tb_user> GetUserList(tb_user user)
         {
-            var source = Db.Queryable<tb_user>().ToList();//查询所有
+            var source = GetGetAllUsers().Result;//查询所有
+            return source.WhereIF(!user.u_name.IsNullOrEmpty(),o=>o.u_name == user.u_name).WhereIF(!user.u_pwd.IsNullOrEmpty(),p=>p.u_pwd == user.u_pwd).ToList();
+
+
             if (user.u_id == 0) return source;
             if (!string.IsNullOrEmpty(user.u_name))
             {
@@ -31,13 +37,10 @@ namespace Monitor_BE.ServiceBuiness
                 else source = source.Where(a => a.userdpt.Equals(user.userdpt.ToUpper())).ToList();
             }
             return source;
-            //Condition condition = new Condition(CompareOper.equal, "string", "name", "%kkp%");
-            //Condition condition2 = new Condition(CompareOper.equal, "int", "id", 1024);
-            //Condition condition3 = new Condition(CompareOper.like, "string", "nickName", "%’kkp’%");
-            //Condition condition4 = new Condition(CompareOper.equal, "date", "age", DateTime.Now);
-            //Condition condition5 = new Condition(CompareOper.equal, "datetime", "signTime", DateTime.Now);
-            //Condition condition6 = new Condition();
         }
+
+        private async Task<List<tb_user>> GetGetAllUsers() => await Db.Queryable<tb_user>().ToListAsync();
+
 
         public int UpdateUserToken(tb_token token, LogService log)
         {
