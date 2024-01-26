@@ -25,12 +25,14 @@ namespace Monitor_BE.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("GetFindMenu")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public ResponseResult<IEnumerable<tb_menu>>? GetFindMenu()
         {
             var data = menu.GetRouteHierarchyAsync();
             return data.Result;
         }
+
+
 
 
 
@@ -40,7 +42,7 @@ namespace Monitor_BE.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpGet("GetFindPermission")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public ResponseResult<IEnumerable<tb_role_permissions>>? GetFindPermission()
         {
             var data = menu.findPermission();
