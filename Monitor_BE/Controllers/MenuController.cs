@@ -20,7 +20,10 @@ namespace Monitor_BE.Controllers
             log = _log;
         }
 
-
+        /// <summary>
+        /// 获取当前菜单，根据用户名
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetFindMenu")]
         [AllowAnonymous]
         public ResponseResult<IEnumerable<tb_menu>>? GetFindMenu()
@@ -32,7 +35,7 @@ namespace Monitor_BE.Controllers
 
 
         /// <summary>
-        /// 获取资产类型
+        /// 获取菜单权限类型
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
