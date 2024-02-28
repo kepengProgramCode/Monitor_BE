@@ -19,15 +19,22 @@ namespace Monitor_BE.Repository
         {
             if (contex == null)
             {
-                base.Context = new SqlSugarClient(new ConnectionConfig()
+                Context = new SqlSugarClient(new ConnectionConfig()
                 {
                     ConnectionString = dbconnection,
                     DbType = DbType.MySql,
                     IsAutoCloseConnection = true,
                     InitKeyType = InitKeyType.Attribute
+                },
+                lg =>
+                {
+                    lg.Aop.OnLogExecuting = (sql, pars) =>
+                    {
+                        Console.WriteLine(sql);//输出sql,查看执行sql 性能无影响
+                    };
                 });
             }
-            db = base.Context;
+            db = Context;
         }
     }
 }

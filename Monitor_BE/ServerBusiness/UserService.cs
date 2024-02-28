@@ -126,5 +126,26 @@ namespace Monitor_BE.ServiceBuiness
             }
             return res;
         }
+
+        public string  Regesiter_User(tb_user user, LogService log)
+        {
+            string  res = "";
+            try
+            {
+                user?.userdpt.ToUpper();
+                user?.region.ToUpper();
+                user?.userdpt.ToUpper();
+               // Db.Ado.BeginTran();
+                res = Db.Insertable(user).ExecuteCommand()>0?"成功":"失败";
+               // Db.Ado.CommitTran();
+            }
+            catch (Exception ex)
+            {
+                Db.Ado.RollbackTran();
+                log.Error("注册用户错误", ex);
+            }
+            return res;
+        }
+
     }
 }

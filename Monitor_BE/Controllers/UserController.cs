@@ -43,7 +43,7 @@ namespace Monitor_BE.Controllers
         public ResponseResult<LoginResponse>? Login(LoginEntity user)
         {
             //生成实体表结构
-            //users.Db.DbFirst.IsCreateAttribute().CreateClassFile(@"C:\Users\kepe1\Desktop\Monitor_BE", "Monitor_BE.Entity");
+            users.Db.DbFirst.IsCreateAttribute().CreateClassFile(@"C:\Users\kepe1\Desktop\Monitor_BE", "Monitor_BE.Entity");
 
             var data = users.GetUserList(new tb_user() { u_name = user.Username, u_pwd = user.Password });
             //string md5s = Fun.md5Encrypt(user.Username);
@@ -105,9 +105,10 @@ namespace Monitor_BE.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost("RegesiterUser")]
         //[Authorize(Roles = "Admin")]
-        public ResponseResult<int> RegesiterUser(dynamic user)
+        public ResponseResult<string> RegesiterUser(tb_user user)
         {
             tb_user? u = user as tb_user;
             string? name = MethodBase.GetCurrentMethod()?.DeclaringType?.Name;
@@ -115,7 +116,8 @@ namespace Monitor_BE.Controllers
             logger.Info(name + method);
             logger.Info($"用户{user.u_name} 被创建");
             //user.u_pwd = Fun.md5Encrypt(user.u_pwd);
-            return users.RegesiterUser(user, logger);
+            //return users.RegesiterUser(user, logger);
+            return users.Regesiter_User(user, logger);
         }
 
         [HttpPost("UpdateUser")]
