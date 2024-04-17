@@ -8,10 +8,10 @@ namespace Monitor_BE.Entity
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("tb_group")]
-    public partial class tb_group
+    [SugarTable("tb_image")]
+    public partial class tb_image
     {
-           public tb_group(){
+           public tb_image(){
 
 
            }
@@ -21,28 +21,35 @@ namespace Monitor_BE.Entity
            /// Nullable:False
            /// </summary>           
            [SugarColumn(IsPrimaryKey=true)]
-           public int group_id {get;set;}
+           public int image_id {get;set;}
 
            /// <summary>
            /// Desc:
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public string name {get;set;}
+           public DateTime? date_time_c {get;set;}
 
            /// <summary>
            /// Desc:
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public string view_access {get;set;}
+           public string filename {get;set;}
 
            /// <summary>
-           /// Desc:搜索，提交，查询
+           /// Desc:
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public string opintion_access {get;set;}
+           public string description {get;set;}
+
+           /// <summary>
+           /// Desc:
+           /// Default:
+           /// Nullable:True
+           /// </summary>           
+           public byte[] images {get;set;}
 
     }
 }

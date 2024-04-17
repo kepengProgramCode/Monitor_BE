@@ -57,7 +57,6 @@ namespace Monitor_BE.Controllers
                 u_id = tb_User.u_id,
             };
             tb_User.u_token = token.AccessToken;
-            tb_User.u_expired = DateTime.Now.AddMilliseconds(token.ExpireIn);
             users.UpdateUser(tb_User, logger);
             users.UpdateUserToken(tb_Token, logger);
 
@@ -75,6 +74,7 @@ namespace Monitor_BE.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("Logout")]
+        [AllowAnonymous]
         public ResponseResult<LogoutResponse>? Logout()
         {
             return new ResponseResult<LogoutResponse>();
@@ -87,11 +87,65 @@ namespace Monitor_BE.Controllers
         /// <param name="user"></param> 
         /// <returns></returns>
         [HttpPost("GetUsers")]
-        //[Authorize(Roles = "Admin")]
-        public ResponseResult<IEnumerable<tb_user>>? GetUsers(LoginEntity user)
+        [AllowAnonymous]
+        public ResponseResult<ResUserLists>? GetUsers(GetUserPar userPar)
         {
-            return users.GetUserList(new tb_user() { u_name = user.Username });
+            return users.GetUserList(userPar);
         }
+
+
+
+        /// <summary>
+        /// 获取状态列表
+        /// </summary>
+        /// <param name="user"></param> 
+        /// <returns></returns>
+        [HttpGet("GetUsersStatus")]
+        [AllowAnonymous]
+        public ResponseResult<IEnumerable<Status>>? GetUsersStatus()
+        {
+            return new List<Status>()
+            {
+                new Status()
+                {
+                    userLabel= "启用",
+                    userStatus= 1,
+                    tagType= "success"
+                },
+                new Status()
+                {
+
+                    userLabel= "禁用",
+                    userStatus= 0,
+                    tagType= "danger"
+                }
+            };
+        }
+
+        /// <summary>
+        /// 获取性别列表
+        /// </summary>
+        /// <param name="user"></param> 
+        /// <returns></returns>
+        [HttpGet("GetUsersGender")]
+        [AllowAnonymous]
+        public ResponseResult<IEnumerable<Gender>>? GetUsersGender()
+        {
+            return new List<Gender>()
+            {
+                new Gender()
+                {
+                    genderLabel= "男",
+                    genderValue= 1
+                },
+                new Gender()
+                {
+                    genderLabel= "女",
+                    genderValue= 2
+                }
+            };
+        }
+
 
 
         [HttpPost("Test4")]
@@ -108,16 +162,15 @@ namespace Monitor_BE.Controllers
         [AllowAnonymous]
         [HttpPost("RegesiterUser")]
         //[Authorize(Roles = "Admin")]
-        public ResponseResult<string> RegesiterUser(tb_user user)
+        public ResponseResult<int> RegesiterUser(tb_user user)
         {
             tb_user? u = user as tb_user;
             string? name = MethodBase.GetCurrentMethod()?.DeclaringType?.Name;
             string? method = MethodBase.GetCurrentMethod()?.Name;
             logger.Info(name + method);
             logger.Info($"用户{user.u_name} 被创建");
-            //user.u_pwd = Fun.md5Encrypt(user.u_pwd);
-            //return users.RegesiterUser(user, logger);
-            return users.Regesiter_User(user, logger);
+            user.u_pwd = Fun.md5Encrypt(user.u_pwd);
+            return users.RegesiterUser(user, logger);
         }
 
         [HttpPost("UpdateUser")]

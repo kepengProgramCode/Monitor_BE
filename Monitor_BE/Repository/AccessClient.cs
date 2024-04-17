@@ -19,7 +19,7 @@ namespace Monitor_BE.Repository
         {
             if (contex == null)
             {
-                Context = new SqlSugarClient(new ConnectionConfig()
+                Context = new SqlSugarScope(new ConnectionConfig()
                 {
                     ConnectionString = dbconnection,
                     DbType = DbType.MySql,

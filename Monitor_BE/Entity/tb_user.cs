@@ -31,13 +31,6 @@ namespace Monitor_BE.Entity
            public string u_token {get;set;}
 
            /// <summary>
-           /// Desc:组别
-           /// Default:
-           /// Nullable:True
-           /// </summary>           
-           public int? groupId {get;set;}
-
-           /// <summary>
            /// Desc:名称
            /// Default:
            /// Nullable:False
@@ -50,20 +43,6 @@ namespace Monitor_BE.Entity
            /// Nullable:True
            /// </summary>           
            public string u_pwd {get;set;}
-
-           /// <summary>
-           /// Desc:权限
-           /// Default:
-           /// Nullable:True
-           /// </summary>           
-           public int? permission {get;set;}
-
-           /// <summary>
-           /// Desc:修改人
-           /// Default:
-           /// Nullable:True
-           /// </summary>           
-           public string changeby {get;set;}
 
            /// <summary>
            /// Desc:修改时间
@@ -80,25 +59,11 @@ namespace Monitor_BE.Entity
            public string u_email {get;set;}
 
            /// <summary>
-           /// Desc:注册地点
-           /// Default:
-           /// Nullable:True
-           /// </summary>           
-           public string region {get;set;}
-
-           /// <summary>
            /// Desc:部门
            /// Default:
            /// Nullable:True
            /// </summary>           
            public string userdpt {get;set;}
-
-           /// <summary>
-           /// Desc:
-           /// Default:
-           /// Nullable:True
-           /// </summary>           
-           public string position {get;set;}
 
            /// <summary>
            /// Desc:状态0：
@@ -108,11 +73,11 @@ namespace Monitor_BE.Entity
            public bool? status {get;set;}
 
            /// <summary>
-           /// Desc:
+           /// Desc:头像二进制数据
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public string u_tital {get;set;}
+           public byte[] photo {get;set;}
 
            /// <summary>
            /// Desc:用户类型
@@ -122,11 +87,18 @@ namespace Monitor_BE.Entity
            public int? u_type {get;set;}
 
            /// <summary>
-           /// Desc:token过期时间
+           /// Desc:创建时间
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public DateTime? u_expired {get;set;}
+           public string createTime {get;set;}
+
+           /// <summary>
+           /// Desc:头像
+           /// Default:
+           /// Nullable:True
+           /// </summary>           
+           public string avatar {get;set;}
 
     }
 }

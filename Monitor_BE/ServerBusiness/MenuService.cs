@@ -2,6 +2,9 @@
 using Monitor_BE.Repository;
 using NewLife.Reflection;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace Monitor_BE.ServerBusiness
 {
@@ -18,7 +21,7 @@ namespace Monitor_BE.ServerBusiness
         /// <param name="userName">用户名</param>
         /// <param name="menuType">菜单类型</param>
         /// <returns>递归后的菜单</returns>
-        public List<tb_role_permissions> findPermission(string u_id)
+        public object findPermission(string u_id)
         {
             //var g = Db.Queryable<tb_role_permissions>().LeftJoin<tb_role>((p, r) => p.role_id == r.id).LeftJoin<tb_user_role>((p, r, ur) => r.id == ur.role_id).LeftJoin<tb_user>((p, r, ur, u) => ur.id == u.u_id && u.u_name == u_id);
             return findButtonByUser(u_id);
@@ -44,7 +47,7 @@ namespace Monitor_BE.ServerBusiness
 
                 return null;
             }
-            
+
         }
 
 
@@ -54,13 +57,16 @@ namespace Monitor_BE.ServerBusiness
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
-        private List<tb_role_permissions> findButtonByUser(string userName)
+        private object findButtonByUser(string userName)
         {
-            if (string.IsNullOrEmpty(userName))
+            if (string.IsNullOrEmpty(userName)) return null;
+            var table = Db.Ado.SqlQuery<tb_role_permissions>($"select p.* from tb_role_permissions p, tb_user u, tb_user_role ur where u.u_name = '{userName}' and u.u_id = ur.user_id and ur.role_id = p.role_id");
+            Dictionary<string, string[]> tp = new();
+            foreach (var item in table)
             {
-                return Db.Queryable<tb_role_permissions>().ToList();
+                tp.Add(item.menuName, item.button_permission.Split(','));
             }
-            return Db.Ado.SqlQuery<tb_role_permissions>($"select p.* from tb_role_permissions p, tb_user u, tb_user_role ur where u.u_name = '{userName}' and u.u_id = ur.user_id and ur.role_id = p.role_id");
+            return tp;
         }
 
 
@@ -122,6 +128,16 @@ namespace Monitor_BE.ServerBusiness
             // return await Db.Queryable<tb_menu>().ToTreeAsync(it => it.children, it => it.parent_id, null);
             //通过构造子表查询菜单
             return await Db.Queryable<tb_menu>().Includes(x => x.meta).ToTreeAsync(it => it.children, it => it.parent_id, null, obj);
+        }
+
+        public async Task<int> CreatNewMenuItems(tb_menu tb_Menu)
+        {
+            var F = Db.InsertNav(tb_Menu)
+                .Include(z1 => z1.meta)//插入2层 Root->ShoolA->RoomList
+                .Include(z1 => z1.children)//插入1层 Root->Books
+                .ExecuteCommand();
+
+            return F.ToInt();
         }
     }
 }

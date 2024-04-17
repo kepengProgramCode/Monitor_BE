@@ -65,6 +65,8 @@ namespace Monitor_BE.Entity
 
 
         [SugarColumn(IsIgnore = true)]
+        //标准配置 推荐
+        [Navigate(NavigateType.OneToMany, nameof(id))]//一对一 SchoolId是StudentA类里面的
         public List<tb_menu> children { get; set; }
 
     }
