@@ -23,4 +23,20 @@
 
     public class LogoutResponse { }
 
+    public class ResUserLists
+    {
+        public List<tb_user> list { get; set; }
+        public int total { get => list.Count; }
+        public int pageSize { get; set; }
+        public int pageNum { get; set; } = 1;
+
+    }
+
+    public class GetUserPar
+    {
+        public int type { get; set; }
+        public int pageSize { get; set; }
+        public int pageNum { get; set; }
+
+    }
 }

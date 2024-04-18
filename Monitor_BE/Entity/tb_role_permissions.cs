@@ -28,7 +28,7 @@ namespace Monitor_BE.Entity
         /// Desc:
         /// Default:
         /// Nullable:True
-        /// </summary>     
+        /// </summary>  
         [SugarColumn(IsIgnore = true)]
         public long? role_id { get; set; }
 
@@ -37,14 +37,14 @@ namespace Monitor_BE.Entity
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string useProTable { get; set; }
+        public string menuName { get; set; }
 
         /// <summary>
         /// Desc:
         /// Default:
         /// Nullable:True
         /// </summary>           
-        public string authButton { get; set; }
+        public string button_permission { get; set; }
 
     }
 }

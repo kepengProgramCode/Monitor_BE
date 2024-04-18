@@ -19,7 +19,8 @@ namespace Monitor_BE.Repository
         {
             if (contex == null)
             {
-                Context = new SqlSugarClient(new ConnectionConfig()
+                //这里将SqlSuggerClient换成SqlScop
+                Context = new SqlSugarScope(new ConnectionConfig()
                 {
                     ConnectionString = dbconnection,
                     DbType = DbType.MySql,

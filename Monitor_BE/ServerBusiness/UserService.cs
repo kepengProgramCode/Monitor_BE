@@ -22,21 +22,17 @@ namespace Monitor_BE.ServiceBuiness
         public List<tb_user> GetUserList(tb_user user)
         {
             var source = GetGetAllUsers().Result;//查询所有
-            return source.WhereIF(!user.u_name.IsNullOrEmpty(),o=>o.u_name == user.u_name).WhereIF(!user.u_pwd.IsNullOrEmpty(),p=>p.u_pwd == user.u_pwd).ToList();
+            return source.WhereIF(!user.u_name.IsNullOrEmpty(), o => o.u_name == user.u_name).WhereIF(!user.u_pwd.IsNullOrEmpty(), p => p.u_pwd == user.u_pwd).ToList();
+        }
 
-
-            if (user.u_id == 0) return source;
-            if (!string.IsNullOrEmpty(user.u_name))
-            {
-                if (user.u_name.Contains('*')) source = source.Where(a => a.u_name.Contains(user.u_name.Replace("*", ""))).ToList();
-                else source = source.Where(a => a.u_name.Equals(user.u_name)).ToList();
-            }
-            if (!string.IsNullOrEmpty(user.userdpt))
-            {
-                if (user.userdpt.Contains('*')) source = source.Where(a => a.userdpt.Contains(user.userdpt.ToUpper().Replace("*", ""))).ToList();
-                else source = source.Where(a => a.userdpt.Equals(user.userdpt.ToUpper())).ToList();
-            }
-            return source;
+        public ResUserLists GetUserList(GetUserPar userPar)
+        {
+            var res = GetGetAllUsers().Result;
+            ResUserLists list = new();
+            list.list = res;
+            list.pageNum = userPar.pageNum;
+            list.pageSize = userPar.pageSize;
+            return list;
         }
 
         private async Task<List<tb_user>> GetGetAllUsers() => await Db.Queryable<tb_user>().ToListAsync();
@@ -74,10 +70,9 @@ namespace Monitor_BE.ServiceBuiness
             try
             {
                 user?.userdpt.ToUpper();
-                user?.region.ToUpper();
                 user?.userdpt.ToUpper();
                 Db.Ado.BeginTran();
-                res = Db.Insertable(user).ExecuteCommand();
+                res = Db.Insertable(user).ExecuteCommand() > 0 ? 0 : 1;
                 Db.Ado.CommitTran();
             }
             catch (Exception ex)
@@ -95,7 +90,6 @@ namespace Monitor_BE.ServiceBuiness
             try
             {
                 user?.userdpt.ToUpper();
-                user?.region.ToUpper();
                 user?.userdpt.ToUpper();
                 Db.Ado.BeginTran();
                 res = Db.Updateable(user).ExecuteCommand();
@@ -123,26 +117,6 @@ namespace Monitor_BE.ServiceBuiness
             {
                 Db.Ado.RollbackTran();
                 log.Error("注册删除错误", ex);
-            }
-            return res;
-        }
-
-        public string  Regesiter_User(tb_user user, LogService log)
-        {
-            string  res = "";
-            try
-            {
-                user?.userdpt.ToUpper();
-                user?.region.ToUpper();
-                user?.userdpt.ToUpper();
-               // Db.Ado.BeginTran();
-                res = Db.Insertable(user).ExecuteCommand()>0?"成功":"失败";
-               // Db.Ado.CommitTran();
-            }
-            catch (Exception ex)
-            {
-                Db.Ado.RollbackTran();
-                log.Error("注册用户错误", ex);
             }
             return res;
         }
