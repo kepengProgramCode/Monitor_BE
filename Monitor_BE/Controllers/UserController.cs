@@ -74,6 +74,7 @@ namespace Monitor_BE.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("Logout")]
+        [AllowAnonymous]
         public ResponseResult<LogoutResponse>? Logout()
         {
             return new ResponseResult<LogoutResponse>();
