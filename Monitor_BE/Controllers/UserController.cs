@@ -43,7 +43,7 @@ namespace Monitor_BE.Controllers
         public ResponseResult<LoginResponse>? Login(LoginEntity user)
         {
             //生成实体表结构
-            users.Db.DbFirst.IsCreateAttribute().CreateClassFile(@"C:\Users\kepe1\Desktop\Monitor_BE", "Monitor_BE.Entity");
+            //users.Db.DbFirst.IsCreateAttribute().CreateClassFile(@"C:\Users\kepe1\Desktop\Monitor_BE", "Monitor_BE.Entity");
 
             var data = users.GetUserList(new tb_user() { u_name = user.Username, u_pwd = user.Password });
             //string md5s = Fun.md5Encrypt(user.Username);

@@ -19,6 +19,7 @@ namespace Monitor_BE.Repository
         {
             if (contex == null)
             {
+                //这里将SqlSuggerClient换成SqlScop
                 Context = new SqlSugarScope(new ConnectionConfig()
                 {
                     ConnectionString = dbconnection,
