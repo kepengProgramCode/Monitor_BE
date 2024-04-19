@@ -29,7 +29,7 @@ namespace Monitor_BE.Controllers
         }
         protected override void OnWriteError(string action, string message)
         {
-            XTrace.WriteLine("UserController服务信息：{0}-------{1}", action, message);
+             XTrace.WriteLine("UserController服务信息：{0}-------{1}", action, message);
         }
 
 
