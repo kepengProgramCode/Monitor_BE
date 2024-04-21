@@ -33,11 +33,21 @@ namespace Monitor_BE.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("UploadImage")]
-        public ResponseResult<string>? UploadImage(object img)
+        public ResponseResult<UploadRes>? UploadImage(IFormFile file)
         {
-            return "new ResponseResult<LogoutResponse>();";
+            if (file == null || file.Length == 0)
+            {
+                return new ResponseResult<UploadRes>()
+                {
+                    Code = ResultStatus.Error,
+                    Message = "上传错误"
+                };
+            }
+            else
+            {
+                var res = _upload.SaveUploadfile(file).Result;
+                return new UploadRes() { fileUrl = res };
+            }
         }
-
-
     }
 }

@@ -39,4 +39,9 @@
         public int pageNum { get; set; }
 
     }
+
+    public class UploadRes
+    {
+        public string fileUrl { get; set; }
+    }
 }

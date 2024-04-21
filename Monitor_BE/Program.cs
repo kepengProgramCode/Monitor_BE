@@ -161,6 +161,8 @@ internal class Program
 
         app.MapControllers();
 
+        app.UseStaticFiles(); // 启用静态文件服务
+
         app.Run();
     }
 }
