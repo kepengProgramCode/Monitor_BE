@@ -122,30 +122,6 @@ namespace Monitor_BE.Controllers
             };
         }
 
-        /// <summary>
-        /// 获取性别列表
-        /// </summary>
-        /// <param name="user"></param> 
-        /// <returns></returns>
-        [HttpGet("GetUsersGender")]
-        [AllowAnonymous]
-        public ResponseResult<IEnumerable<Gender>>? GetUsersGender()
-        {
-            return new List<Gender>()
-            {
-                new Gender()
-                {
-                    genderLabel= "男",
-                    genderValue= 1
-                },
-                new Gender()
-                {
-                    genderLabel= "女",
-                    genderValue= 2
-                }
-            };
-        }
-
 
 
         [HttpPost("Test4")]
