@@ -28,10 +28,14 @@ namespace Monitor_BE.ServiceBuiness
         public ResUserLists GetUserList(GetUserPar userPar)
         {
             var res = GetGetAllUsers().Result;
-            ResUserLists list = new();
-            list.list = res;
-            list.pageNum = userPar.pageNum;
-            list.pageSize = userPar.pageSize;
+            // 将查到的用户密码置空，token置空
+            res.ForEach(u => { u.u_pwd = string.Empty; u.u_token = string.Empty; });
+            ResUserLists list = new()
+            {
+                list = res,
+                pageNum = userPar.pageNum,
+                pageSize = userPar.pageSize
+            };
             return list;
         }
 
@@ -90,9 +94,9 @@ namespace Monitor_BE.ServiceBuiness
             try
             {
                 user?.userdpt.ToUpper();
-                user?.userdpt.ToUpper();
                 Db.Ado.BeginTran();
-                res = Db.Updateable(user).ExecuteCommand();
+                //忽略两项更新
+                res = Db.Updateable(user).IgnoreColumns(o => new { o.u_token, o.u_pwd }).ExecuteCommand();
                 Db.Ado.CommitTran();
             }
             catch (Exception ex)

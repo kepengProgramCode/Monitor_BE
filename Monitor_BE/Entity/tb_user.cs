@@ -77,7 +77,7 @@ namespace Monitor_BE.Entity
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public byte[] photo {get;set;}
+           public string photo {get;set;}
 
            /// <summary>
            /// Desc:用户类型
