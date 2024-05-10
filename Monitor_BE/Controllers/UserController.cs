@@ -29,7 +29,7 @@ namespace Monitor_BE.Controllers
         }
         protected override void OnWriteError(string action, string message)
         {
-             XTrace.WriteLine("UserController服务信息：{0}-------{1}", action, message);
+            XTrace.WriteLine("UserController服务信息：{0}-------{1}", action, message);
         }
 
 
@@ -136,17 +136,19 @@ namespace Monitor_BE.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpPost("RegesiterUser")]
+        [HttpPost("RegisterUser")]
         //[Authorize(Roles = "Admin")]
-        public ResponseResult<int> RegesiterUser(tb_user user)
+        public ResponseResult<int> RegisterUser(tb_user user)
         {
-            tb_user? u = user as tb_user;
+            user.createTime = DateTime.Now.ToFullString();
+            user.status = 1;
+            user.u_type = 1;
             string? name = MethodBase.GetCurrentMethod()?.DeclaringType?.Name;
             string? method = MethodBase.GetCurrentMethod()?.Name;
             logger.Info(name + method);
             logger.Info($"用户{user.u_name} 被创建");
             user.u_pwd = Fun.md5Encrypt(user.u_pwd);
-            return users.RegesiterUser(user, logger);
+            return users.RegisterUser(user, logger);
         }
 
         [HttpPost("UpdateUser")]
@@ -154,6 +156,13 @@ namespace Monitor_BE.Controllers
         public ResponseResult<int> UpdateUser(tb_user user)
         {
             return users.UpdateUser(user, logger);
+        }
+
+        [HttpPost("UpdateUserStatus")]
+        //[Authorize(Roles = "Admin")]
+        public ResponseResult<int> UpdateUserStatus(int u_id, int status)
+        {
+            return users.UpdateStatus([u_id, status]);
         }
 
         [HttpPost("DeleteUser")]

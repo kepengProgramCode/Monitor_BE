@@ -70,7 +70,7 @@ namespace Monitor_BE.Entity
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public bool? status {get;set;}
+           public int? status {get;set;}
 
            /// <summary>
            /// Desc:头像二进制数据

@@ -68,12 +68,11 @@ namespace Monitor_BE.ServiceBuiness
             return res;
         }
 
-        public int RegesiterUser(tb_user user, LogService log)
+        public int RegisterUser(tb_user user, LogService log)
         {
             int res = 0;
             try
             {
-                user?.userdpt.ToUpper();
                 user?.userdpt.ToUpper();
                 Db.Ado.BeginTran();
                 res = Db.Insertable(user).ExecuteCommand() > 0 ? 0 : 1;
@@ -87,13 +86,30 @@ namespace Monitor_BE.ServiceBuiness
             return res;
         }
 
+        public int UpdateStatus(int[] items)
+        {
+            int res = 0;
+            try
+            {
+                Db.Ado.BeginTran();
+                //忽略两项更新
+                res = Db.Updateable(new tb_user { u_id = items[0], status = items[1] }).
+                    UpdateColumns(o => new { o.status }).ExecuteCommand();
+                Db.Ado.CommitTran();
+            }
+            catch (Exception ex)
+            {
+                Db.Ado.RollbackTran();
+            }
+            return res;
+        }
 
         public int UpdateUser(tb_user user, LogService log)
         {
             int res = 0;
             try
             {
-                user?.userdpt.ToUpper();
+                user.userdpt = user?.userdpt.ToUpper();
                 Db.Ado.BeginTran();
                 //忽略两项更新
                 res = Db.Updateable(user).IgnoreColumns(o => new { o.u_token, o.u_pwd }).ExecuteCommand();
