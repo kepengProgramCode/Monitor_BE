@@ -11,6 +11,7 @@ using Monitor_BE.ServerBusiness;
 using System.Linq.Expressions;
 using SqlSugar;
 using NewLife;
+using System.ComponentModel;
 
 namespace Monitor_BE.ServiceBuiness
 {
@@ -28,6 +29,10 @@ namespace Monitor_BE.ServiceBuiness
         public ResUserLists GetUserList(GetUserPar userPar)
         {
             var res = GetGetAllUsers().Result;
+            if (!string.IsNullOrEmpty(userPar.u_name))
+            {
+                res = res.FindAll((o) => o.u_name.Contains(userPar.u_name));
+            }
             // 将查到的用户密码置空，token置空
             res.ForEach(u => { u.u_pwd = string.Empty; u.u_token = string.Empty; });
             ResUserLists list = new()

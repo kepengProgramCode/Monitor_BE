@@ -158,9 +158,9 @@ namespace Monitor_BE.Controllers
             return users.UpdateUser(user, logger);
         }
 
+        [AllowAnonymous]
         [HttpPost("UpdateUserStatus")]
-        //[Authorize(Roles = "Admin")]
-        public ResponseResult<int> UpdateUserStatus(int u_id, int status)
+        public ResponseResult<int> UpdateUserStatus(int status, int u_id)
         {
             return users.UpdateStatus([u_id, status]);
         }

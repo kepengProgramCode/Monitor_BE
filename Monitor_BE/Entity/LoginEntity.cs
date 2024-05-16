@@ -37,6 +37,7 @@
         public int type { get; set; }
         public int pageSize { get; set; }
         public int pageNum { get; set; }
+        public string u_name { get; set; }
 
     }
 
