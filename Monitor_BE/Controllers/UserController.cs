@@ -7,7 +7,7 @@ using Monitor_BE.Common.Token;
 using Monitor_BE.Entity;
 using Monitor_BE.ServerBusiness;
 using Monitor_BE.ServiceBuiness;
-using NewLife;
+using NewLife; 
 using NewLife.Log;
 using NewLife.Security;
 using System.Reflection;
@@ -160,7 +160,7 @@ namespace Monitor_BE.Controllers
 
         [AllowAnonymous]
         [HttpPost("UpdateUserStatus")]
-        public ResponseResult<int> UpdateUserStatus(int status, int u_id)
+        public ResponseResult<int> UpdateUserStatus(int u_id, int status)
         {
             return users.UpdateStatus([u_id, status]);
         }
