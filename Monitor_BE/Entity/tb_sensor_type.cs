@@ -8,10 +8,10 @@ namespace Monitor_BE.Entity
     ///<summary>
     ///
     ///</summary>
-    [SugarTable("tb_asset_types")]
-    public partial class tb_asset_types
+    [SugarTable("tb_sensor_type")]
+    public partial class tb_sensor_type
     {
-           public tb_asset_types(){
+           public tb_sensor_type(){
 
 
            }
@@ -21,21 +21,35 @@ namespace Monitor_BE.Entity
            /// Nullable:False
            /// </summary>           
            [SugarColumn(IsPrimaryKey=true)]
-           public string asset_type_id {get;set;}
+           public string sensor_type_id {get;set;}
 
            /// <summary>
            /// Desc:
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public string asset_type {get;set;}
+           public string name {get;set;}
 
            /// <summary>
            /// Desc:
            /// Default:
            /// Nullable:True
            /// </summary>           
-           public string asset_attrb {get;set;}
+           public string desc {get;set;}
+
+           /// <summary>
+           /// Desc:
+           /// Default:
+           /// Nullable:False
+           /// </summary>           
+           public int sensor_type_id_int {get;set;}
+
+           /// <summary>
+           /// Desc:
+           /// Default:
+           /// Nullable:True
+           /// </summary>           
+           public string sensor_class {get;set;}
 
     }
 }

@@ -23,22 +23,20 @@
 
     public class LogoutResponse { }
 
-    public class ResUserLists
+    public class ResLists<T>
     {
-        public List<tb_user> list { get; set; }
+        public List<T> list { get; set; }
         public int total { get => list.Count; }
         public int pageSize { get; set; }
         public int pageNum { get; set; } = 1;
 
     }
 
-    public class GetUserPar
+    public class GetrPar<T>
     {
-        public int type { get; set; }
         public int pageSize { get; set; }
         public int pageNum { get; set; }
-        public string u_name { get; set; }
-
+        public T? dynamicParams { get; set; }
     }
 
     public class UploadRes

@@ -26,16 +26,16 @@ namespace Monitor_BE.ServiceBuiness
             return source.WhereIF(!user.u_name.IsNullOrEmpty(), o => o.u_name == user.u_name).WhereIF(!user.u_pwd.IsNullOrEmpty(), p => p.u_pwd == user.u_pwd).ToList();
         }
 
-        public ResUserLists GetUserList(GetUserPar userPar)
+        public ResLists<tb_user> GetUserList(GetrPar<string> userPar)
         {
             var res = GetGetAllUsers().Result;
-            if (!string.IsNullOrEmpty(userPar.u_name))
+            if (!string.IsNullOrEmpty(userPar.dynamicParams))
             {
-                res = res.FindAll((o) => o.u_name.Contains(userPar.u_name));
+                res = res.FindAll((o) => o.u_name.Contains(userPar.dynamicParams));
             }
             // 将查到的用户密码置空，token置空
             res.ForEach(u => { u.u_pwd = string.Empty; u.u_token = string.Empty; });
-            ResUserLists list = new()
+            ResLists<tb_user> list = new()
             {
                 list = res,
                 pageNum = userPar.pageNum,
