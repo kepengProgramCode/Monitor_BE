@@ -36,6 +36,5 @@ namespace Monitor_BE.Entity
            /// Nullable:True
            /// </summary>           
            public int? id {get;set;}
-
     }
 }

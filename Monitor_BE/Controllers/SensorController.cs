@@ -15,12 +15,14 @@ namespace Monitor_BE.Controllers
     {
         private readonly Sensor_Class_Service sensor_class;
         private readonly Sensor_Type_Service sensor_type;
+        private readonly Action_Type_Service action_type;
         private readonly LogService logger;
 
-        public SensorController(Sensor_Class_Service _sensor_class, Sensor_Type_Service _sensor_type, LogService _logService)
+        public SensorController(Sensor_Class_Service _sensor_class, Sensor_Type_Service _sensor_type, Action_Type_Service _action, LogService _logService)
         {
             sensor_class = _sensor_class;
             sensor_type = _sensor_type;
+            action_type = _action;
             logger = _logService;
         }
 
@@ -43,6 +45,15 @@ namespace Monitor_BE.Controllers
         [HttpPost("GetSensorTypeList")]
         [AllowAnonymous]
         public ResponseResult<ResLists<tb_sensor_type>>? GetSensorTypeList(GetrPar<string> sensorPar) => sensor_type.GetSensorTypeList(sensorPar);
+
+        /// <summary>
+        /// 获取Action列表
+        /// </summary>
+        /// <param name="user"></param> 
+        /// <returns></returns>
+        [HttpPost("GetActionTypeList")]
+        [AllowAnonymous]
+        public ResponseResult<ResLists<tb_action_type>>? GetActionTypeList(GetrPar<string> sensorPar) => action_type.GetSensorTypeList(sensorPar);
 
         #endregion
 

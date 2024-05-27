@@ -66,9 +66,49 @@ namespace Monitor_BE.ServerBusiness
             int res = 0;
             try
             {
-                sensor.sensor_class.ToUpper();
+                sensor.sensor_class = sensor.sensor_class.ToUpper();
+                sensor.sensor_type_id = sensor.sensor_type_id.ToUpper();
                 Db.Ado.BeginTran();
                 res = Db.Insertable(sensor).ExecuteCommand() > 0 ? 0 : 1;
+                Db.Ado.CommitTran();
+            }
+            catch (Exception ex)
+            {
+                Db.Ado.RollbackTran();
+                log.Error("注册用户错误", ex);
+            }
+            return res;
+        }
+    }
+
+
+    public class Action_Type_Service : AccessClient<tb_action_type>
+    {
+        public ResLists<tb_action_type>? GetSensorTypeList(GetrPar<string> actionPar)
+        {
+            var source = Db.Queryable<tb_action_type>().ToList();
+            if (!string.IsNullOrEmpty(actionPar.dynamicParams))
+            {
+                source = source.FindAll((o) => o.action_type_id.Contains(actionPar.dynamicParams));
+            }
+            ResLists<tb_action_type> list = new()
+            {
+                list = source,
+                pageNum = actionPar.pageNum,
+                pageSize = actionPar.pageSize
+            };
+            return list;
+        }
+
+
+        public int RegistSensorType(tb_action_type action, LogService log)
+        {
+            int res = 0;
+            try
+            {
+                action.action_type_id = action.action_type_id.ToUpper();
+                Db.Ado.BeginTran();
+                res = Db.Insertable(action).ExecuteCommand() > 0 ? 0 : 1;
                 Db.Ado.CommitTran();
             }
             catch (Exception ex)
